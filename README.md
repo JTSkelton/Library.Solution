@@ -35,7 +35,7 @@
 An app to catalog a library's books and let patrons check them out.
 
 ### Schema
-
+Add image.
 <!-- ![Schema](./Library/wwwroot/img/schema_01.png) -->
 
 ## Project Setup/Installation Instructions <a id="setup"></a>
