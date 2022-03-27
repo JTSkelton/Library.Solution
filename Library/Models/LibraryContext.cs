@@ -7,6 +7,7 @@ namespace Library.Models
   {
     public DbSet<Book> Books { get; set; }
     public DbSet<Librarian> Librarians { get; set; }
+    public DbSet<Patron> Patrons { get; set; }
     public DbSet<CategoryItem> CategoryItem { get; set; }
 
     public LibraryContext(DbContextOptions options) : base(options) { }
