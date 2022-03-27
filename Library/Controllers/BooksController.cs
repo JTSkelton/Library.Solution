@@ -35,6 +35,7 @@ namespace Library.Controllers
     public ActionResult Create()
     {
       ViewBag.LibrarianId = new SelectList(_db.Librarians, "LibrarianId", "LibrarianName");
+      // ViewBag.PatronId = new SelectList(_db.Patrons, "PatronId", "PatronName");
       return View();
     }
 
@@ -59,6 +60,8 @@ namespace Library.Controllers
       var thisBook = _db.Books
           .Include(book => book.BookLibrarianEntities)
           .ThenInclude(join => join.Librarian)
+          .Include(book => book.BookPatronEntities)
+          .ThenInclude(join => join.Patron)
           .FirstOrDefault(book => book.BookId == id);
       return View(thisBook);
     }
@@ -82,19 +85,37 @@ namespace Library.Controllers
       return RedirectToAction("Index");
     }
 
-    public ActionResult AddLibrarian(int id)
+    // public ActionResult AddLibrarian(int id)
+    // {
+    //   var thisBook = _db.Books.FirstOrDefault(book => book.BookId == id);
+    //   ViewBag.LibrarianId = new SelectList(_db.Librarians, "LibrarianId", "LibrarianName");
+    //   return View(thisBook);
+    // }
+
+    // [HttpPost]
+    // public ActionResult AddLibrarian(Book book, int LibrarianId)
+    // {
+    //   if (LibrarianId != 0)
+    //   {
+    //     _db.BookLibrarian.Add(new BookLibrarian() { LibrarianId = LibrarianId, BookId = book.BookId });
+    //     _db.SaveChanges();
+    //   }
+    //   return RedirectToAction("Index");
+    // }
+
+    public ActionResult AddPatron(int id)
     {
       var thisBook = _db.Books.FirstOrDefault(book => book.BookId == id);
-      ViewBag.LibrarianId = new SelectList(_db.Librarians, "LibrarianId", "LibrarianName");
+      ViewBag.PatronId = new SelectList(_db.Patrons, "PatronId", "PatronName");
       return View(thisBook);
     }
 
     [HttpPost]
-    public ActionResult AddLibrarian(Book book, int LibrarianId)
+    public ActionResult AddPatron(Book book, int PatronId)
     {
-      if (LibrarianId != 0)
+      if (PatronId != 0)
       {
-        _db.BookLibrarian.Add(new BookLibrarian() { LibrarianId = LibrarianId, BookId = book.BookId });
+        _db.BookPatron.Add(new BookPatron() { PatronId = PatronId, BookId = book.BookId });
         _db.SaveChanges();
       }
       return RedirectToAction("Index");
@@ -116,10 +137,10 @@ namespace Library.Controllers
     }
 
     [HttpPost]
-    public ActionResult DeleteLibrarian(int joinId)
+    public ActionResult DeletePatron(int joinId)
     {
-      var joinEntry = _db.BookLibrarian.FirstOrDefault(entry => entry.BookLibrarianId == joinId);
-      _db.BookLibrarian.Remove(joinEntry);
+      var joinEntry = _db.BookPatron.FirstOrDefault(entry => entry.BookPatronId == joinId);
+      _db.BookPatron.Remove(joinEntry);
       _db.SaveChanges();
       return RedirectToAction("Index");
     }
