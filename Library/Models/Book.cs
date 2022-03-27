@@ -16,7 +16,7 @@ namespace Library.Models
     public int Copies { get; set; }
     public string Title { get; set; }
     public string Author{ get; set; }
-    public DateTime DateDue{ get; set; } = DateTime.Now.AddDays(14);
+    public System.DateTime DateDue { get; set; } = System.DateTime.Now.AddDays(14);
     public virtual ApplicationUser User { get; set; }
     public virtual ICollection<BookPatron> BookPatronEntities { get;}
     public virtual ICollection<BookLibrarian> BookLibrarianEntities { get;}
