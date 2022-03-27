@@ -1,0 +1,19 @@
+@{
+  Layout = "_Layout";
+}
+
+@model Library.Models.Book
+
+<h4>Add a New Book</h4>
+@using (Html.BeginForm())
+{
+  @Html.LabelFor(model => model.Title)
+  @Html.TextBoxFor(model => model.Title)
+
+  @Html.LabelFor(model => model.Copies)
+  @Html.TextBoxFor(model => model.Copies)
+
+
+  <button type="submit" class="btn btn-primary" style="width:250px">Add New Book</button>
+}
+<p>@Html.ActionLink("Show all Books", "Index")</p>

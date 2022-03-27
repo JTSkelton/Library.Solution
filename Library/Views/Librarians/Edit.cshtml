@@ -1,0 +1,18 @@
+@{
+  Layout = "_Layout";
+}
+
+@model Library.Models.Librarian
+
+<h4>Edit this Librarian: @Html.DisplayFor(model => model.LibrarianName)</h4>
+
+@using (Html.BeginForm())
+{
+  @Html.HiddenFor(model => model.LibrarianId)
+
+  @Html.LabelFor(model => model.LibrarianName)
+  @Html.TextBoxFor(model => model.LibrarianName)
+
+  <input type="submit" value="Save" class = "btn btn-outline-success" />
+}<br>
+@Html.ActionLink("Back to Librarian List", "Index", new { id = Model.LibrarianId }, new { @class = "btn btn-outline-info" })

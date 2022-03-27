@@ -1,13 +1,12 @@
-
 @{
   Layout = "_Layout";
 }
 
-@model Library.Models.Patron
+@model Library.Models.Author
 
 <h2>Are you sure you want to delete this?</h2>
 
-@Html.DisplayNameFor(model => model.PatronName): @Html.DisplayFor(model => model.PatronName)
+@Html.DisplayNameFor(model => model.AuthorName): @Html.DisplayFor(model => model.AuthorName)
 @using (Html.BeginForm())
 {
   <input type="submit" value="Delete" />

@@ -1,0 +1,54 @@
+@{
+  Layout = "_Layout";
+}
+
+@using Library.Models;
+
+&nbsp;
+<h1>Librarians at the Library</h1>
+
+@if (@Model.Count == 0)
+{
+  <h3>No librarians have been added yet!</h3>
+} 
+
+<table class ="table table-borderd table-striped" style="width: 100%">
+    <thead>
+        <tr>
+            <th>
+                Id
+            </th>
+            <th>
+                Librarian Name
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(Librarian librarian in Model)
+        {
+            <tr class="table table-hover table-dark">
+                <td width 10%>
+                    @librarian.LibrarianId
+                </td>
+                <td width 50%>
+                    @librarian.LibrarianName
+                </td>
+                <td>
+                @Html.ActionLink("Details", "Details", new { id = @librarian.LibrarianId}, new { @class = "btn btn-outline-warning" })
+                </td>
+                <td>
+                  @Html.ActionLink("Edit", "Edit", new { id = @librarian.LibrarianId}, new { @class = "btn btn-outline-warning" })
+                </td>
+                <td>
+                @Html.ActionLink("Delete", "Delete", new { id = @librarian.LibrarianId}, new { @class = "btn btn-outline-danger" })
+                </td>
+            </tr>
+        }
+
+
+    </tbody>
+</table>
+
+@Html.ActionLink("Add librarian", "Create", new { id = 0}, new { @class = "btn btn-outline-success" })
+
+@Html.ActionLink("Go To Books", "Index", "Books", new { id = 0}, new { @class = "btn btn-outline-success" })

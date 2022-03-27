@@ -1,0 +1,14 @@
+@{
+  Layout = "_Layout";
+}
+
+@model Library.Models.Author
+
+<h4>Add a new task</h4>
+@using (Html.BeginForm())
+{
+  @Html.LabelFor(model => model.AuthorName)
+  @Html.TextBoxFor(model => model.AuthorName)
+  <input type="submit" value="Add new author" />
+}
+<p>@Html.ActionLink("Show all categories", "Index")</p>

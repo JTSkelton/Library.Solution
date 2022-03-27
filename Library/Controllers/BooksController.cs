@@ -35,12 +35,12 @@ namespace Library.Controllers
     public ActionResult Create()
     {
       ViewBag.LibrarianId = new SelectList(_db.Librarians, "LibrarianId", "LibrarianName");
-      // ViewBag.PatronId = new SelectList(_db.Patrons, "PatronId", "PatronName");
+      ViewBag.AuthorId = new SelectList(_db.Authors, "AuthorId", "AuthorName");
       return View();
     }
 
     [HttpPost]
-    public async Task<ActionResult> Create(Book book, int LibrarianId)
+    public async Task<ActionResult> Create(Book book, int LibrarianId, int AuthorId)
     {
         var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
         var currentUser = await _userManager.FindByIdAsync(userId);
@@ -49,7 +49,7 @@ namespace Library.Controllers
         _db.SaveChanges();
         if (LibrarianId != 0)
         {
-            _db.BookLibrarian.Add(new BookLibrarian() { LibrarianId = LibrarianId, BookId = book.BookId });
+            _db.AuthorBookLibrarian.Add(new AuthorBookLibrarian() { LibrarianId = LibrarianId, BookId = book.BookId, AuthorId = AuthorId });
         }
         _db.SaveChanges();
         return RedirectToAction("Index");
@@ -58,7 +58,7 @@ namespace Library.Controllers
     public ActionResult Details(int id)
     {
       var thisBook = _db.Books
-          .Include(book => book.BookLibrarianEntities)
+          .Include(book => book.AuthorBookLibrarianEntities)
           .ThenInclude(join => join.Librarian)
           .Include(book => book.BookPatronEntities)
           .ThenInclude(join => join.Patron)
@@ -74,11 +74,11 @@ namespace Library.Controllers
     }
 
     [HttpPost]
-    public ActionResult Edit(Book book, int LibrarianId)
+    public ActionResult Edit(Book book, int LibrarianId, int AuthorId)
     {
       if (LibrarianId != 0)
       {
-        _db.BookLibrarian.Add(new BookLibrarian() { LibrarianId = LibrarianId, BookId = book.BookId });
+        _db.AuthorBookLibrarian.Add(new AuthorBookLibrarian() { LibrarianId = LibrarianId, BookId = book.BookId, AuthorId = AuthorId });
       }
       _db.Entry(book).State = EntityState.Modified;
       _db.SaveChanges();
@@ -116,6 +116,24 @@ namespace Library.Controllers
       if (PatronId != 0)
       {
         _db.BookPatron.Add(new BookPatron() { PatronId = PatronId, BookId = book.BookId });
+        _db.SaveChanges();
+      }
+      return RedirectToAction("Index");
+    }
+
+    public ActionResult AddAuthor(int id)
+    {
+      var thisBook = _db.Books.FirstOrDefault(book => book.BookId == id);
+      ViewBag.AuthorId = new SelectList(_db.Authors, "AuthorId", "AuthorName");
+      return View(thisBook);
+    }
+
+    [HttpPost]
+    public ActionResult AddAuthor(Book book, int AuthorId)
+    {
+      if (AuthorId != 0)
+      {
+        _db.AuthorBookLibrarian.Add(new AuthorBookLibrarian() { AuthorId = AuthorId, BookId = book.BookId });
         _db.SaveChanges();
       }
       return RedirectToAction("Index");

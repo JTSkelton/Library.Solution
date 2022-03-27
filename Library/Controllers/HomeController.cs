@@ -6,7 +6,7 @@ namespace Library.Controllers
     {
 
       [HttpGet("/")]
-      public ActionResult Index()
+      public ActionResult LoginIndex()
       {
         return View();
       }

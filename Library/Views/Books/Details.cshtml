@@ -1,0 +1,139 @@
+@{
+  Layout = "_Layout";
+}
+
+@model Library.Models.Book
+
+
+
+
+
+<h1>@Html.DisplayFor(model => model.Title)'s Details</h1>
+
+
+<hr />
+<h3>@Html.DisplayNameFor(model => model.Title): @Html.DisplayFor(model => model.Title)<h3>
+<h3>@Html.DisplayNameFor(model => model.Copies): @Html.DisplayFor(model => model.Copies)</h3>
+
+<br>
+@Html.ActionLink("Back to Books", "Index", new { id = Model.BookId }, new { @class = "btn btn-outline-info" })
+@Html.ActionLink("Edit Book", "Edit", new { id = Model.BookId }, new { @class = "btn btn-outline-info" })
+@Html.ActionLink("Delete Book", "Delete", new { id = Model.BookId }, new { @class = "btn btn-outline-danger" })
+
+
+
+
+
+
+
+<table class ="table table-borderd table-striped" style="width: 100%">
+    <thead>
+        <tr>
+            <th>
+                Id
+            </th>
+            <th>
+                Book Title
+            </th>
+            <th>
+                Book Copies
+            </th>
+            <th>
+                Due Date
+            </th>
+           
+        </tr>
+    </thead>
+    <tbody>
+            <tr class="table table-hover table-dark">
+                <td width 10%>
+                    <h4>@Html.DisplayFor(model => model.BookId)</h4>
+                </td>
+                <td width 50%>
+                    <h4>@Html.DisplayFor(model => model.Title)</h4>
+                </td>
+                <td width 50%>
+                    <h4>@Html.DisplayFor(model => model.Copies)</h4>
+                </td>
+                <td width 50%>
+                    <h4>@Html.DisplayFor(model => model.DateDue)</h4>
+                </td>
+                <td width 50%>
+                    @Html.ActionLink("Edit Book", "Edit", new { id = Model.BookId }, new { @class = "btn btn-outline-info" })
+                </td>
+                <td width 50%>
+                    @Html.ActionLink("Delete Book", "Delete", new { id = Model.BookId }, new { @class = "btn btn-outline-danger" })
+                </td>
+            </tr>
+    </tbody>
+
+<!-- <h3>@Html.RadioButtonFor(x => x.IsCheckedOut, "Yes", true) Yes </h3>
+<h3>@Html.RadioButtonFor(x => x.IsCheckedOut, "No", false) No </h3> -->
+
+</table>
+    <fieldset class="form-group">
+      <legend class="mt-4">Is this book checked out?</legend>
+      <div class="form-check">
+        <label class="form-check-label" data-dashlane-label="true">
+          <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios1" value="option1" checked="" data-dashlane-rid="bae0c88484cac5e9" data-form-type="other">
+          Yes
+        </label>
+      </div>
+      <div class="form-check">
+        <label class="form-check-label" data-dashlane-label="false">
+          <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios2" value="option2" data-dashlane-rid="44aeaef15ff3ce99" data-form-type="other">
+          No
+        </label>
+      </div>
+      <button type="submit" class="btn btn-primary" data-dashlane-rid="c00c28d136de9b05" data-dashlane-label="true" data-form-type="action">Submit</button>
+    </fieldset>
+        
+
+
+@if(@Model.BookPatronEntities.Count == 0)
+{
+  <p>This book has not been reserved by any patrons</p>
+}
+else
+{
+  <h1>@Html.DisplayFor(model => model.Title)'s Patron holds:</h1>
+
+    <table class ="table table-borderd table-striped" style="width: 100%">
+    <thead>
+        <tr>
+            <th>
+                Id
+            </th>
+            <th>
+              Patron Name
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var join in Model.BookPatronEntities)
+        {
+            <tr class="table table-hover table-secondary">
+                <td width 10%>
+                  <h4>@join.Patron.PatronId</h4>
+                </td>
+                <td width 50%>
+                  <h4>@join.Patron.PatronName</h4>
+                </td>
+                <td>
+                @Html.ActionLink("Details", "Details", "Patrons", new { id = @join.Patron.PatronId}, new { @class = "btn btn-outline-info" })
+                </td>
+                <td>
+                @using (Html.BeginForm("DeletePatron", "Books"))
+                    {
+                    @Html.Hidden("joinId", @join.BookPatronId)
+                        <input type="submit" value="Remove Patron" class = "btn btn-outline-danger" />
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+  }
+@Html.ActionLink("Add Patron", "AddPatron", new { id = Model.BookId }, new { @class = "btn btn-outline-success" })
+
+@Html.ActionLink("Back to Catalog", "Index", new { id = Model.BookId }, new { @class = "btn btn-outline-info" })

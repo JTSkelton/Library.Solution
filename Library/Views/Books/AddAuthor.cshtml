@@ -4,14 +4,16 @@
 
 @model Library.Models.Book
 
-<h2>Add a patron</h2>
+<h2>Add an author</h2>
+
+<h4>Add an author to this book: @Html.DisplayFor(model => model.Title)</h4>
 
 @using (Html.BeginForm())
 {
   @Html.HiddenFor(model => model.BookId)
 
-  @Html.Label("Select patron")
-  @Html.DropDownList("PatronId")
+  @Html.Label("Select author")
+  @Html.DropDownList("AuthorId")
 
   <input type="submit" value="Save" />
 }

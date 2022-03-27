@@ -1,0 +1,29 @@
+@{
+  Layout = "_Layout";
+}
+
+@model Library.Models.Patron;
+&nbsp;
+<h2>Patron Details</h2>
+<hr />
+<h3>@Html.DisplayNameFor(model => model.PatronName): @Html.DisplayFor(model => model.PatronName)</h3>
+
+@if(@Model.BookPatronEntities.Count == 0)
+{
+  <p>This patron does not have any books out. </p>
+}
+else
+{
+  <h4>Patron and their Books:</h4>
+  <ul>
+  @foreach(var join in Model.BookPatronEntities)
+  {
+    <li>@join.Book.Title</li>
+  }
+  </ul>
+}
+
+<p>@Html.ActionLink("Back to patron", "Index")</p>
+<p>@Html.ActionLink("Edit Patron", "Edit", new { id = Model.PatronId })</p>
+<p>@Html.ActionLink("Delete Patron", "Delete", new { id = Model.PatronId })</p>
+

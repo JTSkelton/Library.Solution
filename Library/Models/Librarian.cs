@@ -7,11 +7,11 @@ namespace Library.Models
   {
     public Librarian()
     {
-      this.JoinEntities = new HashSet<BookLibrarian>();
+      this.AuthorBookLibrarianEntities = new HashSet<AuthorBookLibrarian>();
     }
     [Key]
     public int LibrarianId { get; set; }
     public string LibrarianName { get; set; }
-    public virtual ICollection<BookLibrarian> JoinEntities { get; set; }
+    public virtual ICollection<AuthorBookLibrarian> AuthorBookLibrarianEntities { get; set; }
   }
 }

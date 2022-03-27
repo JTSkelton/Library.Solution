@@ -6,18 +6,18 @@ using System.Linq;
 
 namespace Library.Controllers
 {
-  public class PatronsController : Controller
+  public class AuthorsController : Controller
   {
     private readonly LibraryContext _db;
 
-    public PatronsController(LibraryContext db)
+    public AuthorsController(LibraryContext db)
     {
       _db = db;
     }
 
     public ActionResult Index()
     {
-      List<Patron> model = _db.Patrons.ToList();
+      List<Author> model = _db.Authors.ToList();
       return View(model);
     }
 
@@ -27,29 +27,29 @@ namespace Library.Controllers
     }
 
     [HttpPost]
-    public ActionResult Create(Patron author)
+    public ActionResult Create(Author author)
     {
-      _db.Patrons.Add(author);
+      _db.Authors.Add(author);
       _db.SaveChanges();
       return RedirectToAction("Index");
     }
 
     public ActionResult Details(int id)
     {
-      var thisPatron = _db.Patrons
-          .Include(author => author.BookPatronEntities)
+      var thisAuthor = _db.Authors
+          .Include(author => author.AuthorBookLibrarianEntities)
           .ThenInclude(join => join.Book)
-          .FirstOrDefault(author => author.PatronId == id);
-      return View(thisPatron);
+          .FirstOrDefault(author => author.AuthorId == id);
+      return View(thisAuthor);
     }
     public ActionResult Edit(int id)
     {
-      var thisPatron = _db.Patrons.FirstOrDefault(author => author.PatronId == id);
-      return View(thisPatron);
+      var thisAuthor = _db.Authors.FirstOrDefault(author => author.AuthorId == id);
+      return View(thisAuthor);
     }
 
     [HttpPost]
-    public ActionResult Edit(Patron author)
+    public ActionResult Edit(Author author)
     {
       _db.Entry(author).State = EntityState.Modified;
       _db.SaveChanges();
@@ -58,15 +58,15 @@ namespace Library.Controllers
 
     public ActionResult Delete(int id)
     {
-      var thisPatron = _db.Patrons.FirstOrDefault(author => author.PatronId == id);
-      return View(thisPatron);
+      var thisAuthor = _db.Authors.FirstOrDefault(author => author.AuthorId == id);
+      return View(thisAuthor);
     }
 
     [HttpPost, ActionName("Delete")]
     public ActionResult DeleteConfirmed(int id)
     {
-      var thisPatron = _db.Patrons.FirstOrDefault(author => author.PatronId == id);
-      _db.Patrons.Remove(thisPatron);
+      var thisAuthor = _db.Authors.FirstOrDefault(author => author.AuthorId == id);
+      _db.Authors.Remove(thisAuthor);
       _db.SaveChanges();
       return RedirectToAction("Index");
     }
