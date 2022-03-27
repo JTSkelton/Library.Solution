@@ -86,6 +86,6 @@ Add image.
 
 ## Contact <a id="contact"></a>
 
-Jack Skelton: [_________@gmail.com](mailto:_________@gmail.com)<br>
+Jack Skelton: [skelton.jt9@gmail.com](mailto:skelton.jt9@gmail.com)<br>
 Wajma Niazi: [w1niazi@hotmail.com](mailto:w1niazi@hotmail.com)<br>
 John Whitten: [johnwhitten.studio@gmail.com](mailto:johnwhitten.studio@gmail.com)
