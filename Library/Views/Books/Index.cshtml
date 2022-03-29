@@ -3,8 +3,17 @@
 }
 
 @using Library.Models; 
-
+<br>
 <h1>Books</h1>
+
+<p>
+  @using(Html.BeginForm("Index", "Home", FormMethod.Get))
+  {
+    <strong>Search by: &nbsp; </strong> @Html.RadioButton("searchBy", "Title", true) <text>&nbsp; &nbsp; Title</text>
+    @Html.RadioButton("searchBy", "Author") <text>&nbsp; &nbsp; Author</text><br /><br />
+    @Html.TextBox("search") <input type="submit" value="Search" />
+      }
+</p>
 
 <table class ="table table-borderd table-striped" style="width: 100%">
     <thead>

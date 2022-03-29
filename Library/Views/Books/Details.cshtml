@@ -7,23 +7,8 @@
 
 
 
-
-<h1>@Html.DisplayFor(model => model.Title)'s Details</h1>
-
-
-<hr />
-<h3>@Html.DisplayNameFor(model => model.Title): @Html.DisplayFor(model => model.Title)<h3>
-<h3>@Html.DisplayNameFor(model => model.Copies): @Html.DisplayFor(model => model.Copies)</h3>
-
 <br>
-@Html.ActionLink("Back to Books", "Index", new { id = Model.BookId }, new { @class = "btn btn-outline-info" })
-@Html.ActionLink("Edit Book", "Edit", new { id = Model.BookId }, new { @class = "btn btn-outline-info" })
-@Html.ActionLink("Delete Book", "Delete", new { id = Model.BookId }, new { @class = "btn btn-outline-danger" })
-
-
-
-
-
+<h1>@Html.DisplayFor(model => model.Title)'s Details</h1>
 
 
 <table class ="table table-borderd table-striped" style="width: 100%">
