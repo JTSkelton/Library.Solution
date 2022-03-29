@@ -23,12 +23,10 @@ namespace Library.Controllers
       _db = db;
     }
 
-    public async Task<ActionResult> Index()
+    public ActionResult Index()
     {
-        var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-        var currentUser = await _userManager.FindByIdAsync(userId);
-        var userBooks = _db.Books.Where(entry => entry.User.Id == currentUser.Id).ToList();
-        return View(userBooks);
+      List<Book> model = _db.Books.ToList();
+      return View(model);
     }
 
 
@@ -40,11 +38,8 @@ namespace Library.Controllers
     }
 
     [HttpPost]
-    public async Task<ActionResult> Create(Book book, int LibrarianId, int AuthorId)
+    public ActionResult Create(Book book, int LibrarianId, int AuthorId)
     {
-        var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-        var currentUser = await _userManager.FindByIdAsync(userId);
-        book.User = currentUser;
         _db.Books.Add(book);
         _db.SaveChanges();
         if (LibrarianId != 0)
