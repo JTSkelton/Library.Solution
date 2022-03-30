@@ -3,6 +3,11 @@ using Microsoft.AspNetCore.Mvc;
 using Library.Models;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using System.Threading.Tasks;
+using System.Security.Claims;
+using System;
 
 namespace Library.Controllers
 {
@@ -15,10 +20,16 @@ namespace Library.Controllers
       _db = db;
     }
 
-    public ActionResult Index()
+    public async Task<IActionResult> Index(string searchString)
     {
-      List<Librarian> model = _db.Librarians.ToList();
-      return View(model);
+      var librarians = from m in _db.Librarians
+      select m;
+
+    if (!String.IsNullOrEmpty(searchString))
+    {
+        librarians = librarians.Where(s => s.LibrarianName!.Contains(searchString));
+    }
+      return View(await librarians.ToListAsync());
     }
 
     public ActionResult Create()

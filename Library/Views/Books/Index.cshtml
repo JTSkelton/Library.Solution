@@ -2,66 +2,72 @@
   Layout = "_Layout";
 }
 
-@using Library.Models; 
+@using Library.Models;
 <br>
 <h1>Books</h1>
 
-<p>
-  @using(Html.BeginForm("Index", "Home", FormMethod.Get))
+<form asp-controller="Librarians" asp-action="Index">
+    <p>
+        Search Books: <input type="text" name="SearchString" />
+        <input type="submit" value="Search" />
+    </p>
+</form>
+@* <p>
+  @using (Html.BeginForm("Index", "Books", FormMethod.Get))
   {
     <strong>Search by: &nbsp; </strong> @Html.RadioButton("searchBy", "Title", true) <text>&nbsp; &nbsp; Title</text>
     @Html.RadioButton("searchBy", "Author") <text>&nbsp; &nbsp; Author</text><br /><br />
     @Html.TextBox("search") <input type="submit" value="Search" />
-      }
-</p>
-
-<table class ="table table-borderd table-striped" style="width: 100%">
-    <thead>
-        <tr>
-            <th>
-                Id
-            </th>
-            <th>
-                Book Title
-            </th>
-            <th>
-                Book Copies
-            </th>
-            <th>
-                Due Date
-            </th>  
-        </tr>
-    </thead>
-    <tbody>
-    @foreach(Book book in Model)
-  {
-            <tr class="table table-hover table-dark">
-                <td width 10%>
-                    @book.BookId
-                </td>
-                <td width 50%>
-                    @book.Title
-                </td>
-                <td width 50%>
-                    @book.Copies
-                </td>
-                <td width 50%>
-                    @book.DateDue
-                </td>
-                <td width 50%>
-                    @Html.ActionLink("Details", "Details", new { id = book.BookId }, new { @class = "btn btn-outline-info" })
-                </td>
-                <td width 50%>
-                    @Html.ActionLink("Edit Book", "Edit", new { id = book.BookId }, new { @class = "btn btn-outline-info" })
-                </td>
-                <td width 50%>
-                    @Html.ActionLink("Delete Book", "Delete", new { id = book.BookId }, new { @class = "btn btn-outline-danger" })
-                </td>
-            </tr>
   }
+</p> *@
+
+<table class="table table-borderd table-striped" style="width: 100%">
+  <thead>
+    <tr>
+      <th>
+        Id
+      </th>
+      <th>
+        Book Title
+      </th>
+      <th>
+        Book Copies
+      </th>
+      <th>
+        Due Date
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    @foreach (Book book in Model)
+    {
+      <tr class="table table-hover table-dark">
+        <td width 10%>
+          @book.BookId
+        </td>
+        <td width 50%>
+          @book.Title
+        </td>
+        <td width 50%>
+          @book.Copies
+        </td>
+        <td width 50%>
+          @book.DateDue
+        </td>
+        <td width 50%>
+          @Html.ActionLink("Details", "Details", new { id = book.BookId }, new { @class = "btn btn-outline-info" })
+        </td>
+        <td width 50%>
+          @Html.ActionLink("Edit Book", "Edit", new { id = book.BookId }, new { @class = "btn btn-outline-info" })
+        </td>
+        <td width 50%>
+          @Html.ActionLink("Delete Book", "Delete", new { id = book.BookId }, new { @class = "btn btn-outline-danger" })
+        </td>
+      </tr>
+    }
   </tbody>
-  </table>
+</table>
 
 
-<p>@Html.ActionLink("Add New Book", "Create")</p>
-<p>@Html.ActionLink("Home", "Index", "Home")</p>
+<button type="button" class="btn btn-outline-success">@Html.ActionLink("Add New Book", "Create")</button>
+<button type="button" class="btn btn-outline-warning">@Html.ActionLink("Home", "Index", "Home")</button>

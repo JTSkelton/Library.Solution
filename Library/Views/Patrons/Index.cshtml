@@ -12,12 +12,12 @@
   <h3>No library patrons have been added yet!</h3>
 } 
 
-<ul>
+
   @foreach(Patron patron in Model)
   {
-    <li>@Html.ActionLink($"{patron.PatronName}", "Details", new { id = patron.PatronId })</li>
+    <h3>@Html.ActionLink($"{patron.PatronName}", "Details", new { id = patron.PatronId })</h3>
   }
-</ul>
 
-<p>@Html.ActionLink("Add new patron", "Create")</p>
-<p>@Html.ActionLink("Home", "Index", "Home")</p>
+<br />
+<button type="button" class="btn btn-outline-success">@Html.ActionLink("Add new patron", "Create")</button>
+<button type="button" class="btn btn-outline-warning">@Html.ActionLink("Home", "Index", "Home")</button>

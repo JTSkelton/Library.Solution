@@ -3,15 +3,15 @@
 }
 
 @model Library.Models.Librarian
-
+<br />
 <h2>Add a new Librarian</h2>
 
-
+<br />
 @using (Html.BeginForm())
 {
-  <p>Librarian Name</p>
+  <h4>Librarian Name</h4>
   @Html.TextBoxFor(model => model.LibrarianName)<br><br>
   
-  <button type="submit" class="btn btn-outline-success" style="width:250px">Add New Librarian</button>
+  <button type="submit" class="btn btn-outline-success">Add New Librarian</button>
 }<br>
 @Html.ActionLink("Show all Librarians", "Index", new {id = 0}, new {@class = "btn btn-outline-primary"})

@@ -6,24 +6,22 @@
 &nbsp;
 <h2>Patron Details</h2>
 <hr />
-<h3>@Html.DisplayNameFor(model => model.PatronName): @Html.DisplayFor(model => model.PatronName)</h3>
-
+<h5>@Html.DisplayNameFor(model => model.PatronName):</h5><h3><strong> @Html.DisplayFor(model => model.PatronName)</strong></h3>
+<br />
 @if(@Model.BookPatronEntities.Count == 0)
 {
   <p>This patron does not have any books out. </p>
 }
 else
 {
-  <h4>Patron and their Books:</h4>
-  <ul>
+  <h5>Patron reserves:</h5>
   @foreach(var join in Model.BookPatronEntities)
   {
-    <li>@join.Book.Title</li>
+    <h4>@join.Book.Title</h4>
   }
-  </ul>
 }
-
-<p>@Html.ActionLink("Back to patron", "Index")</p>
-<p>@Html.ActionLink("Edit Patron", "Edit", new { id = Model.PatronId })</p>
-<p>@Html.ActionLink("Delete Patron", "Delete", new { id = Model.PatronId })</p>
+<br />
+<button type="button" class="btn btn-outline-success">@Html.ActionLink("Back to patron", "Index")</button>
+<button type="button" class="btn btn-outline-success">@Html.ActionLink("Edit Patron", "Edit", new { id = Model.PatronId })</button>
+<button type="button" class="btn btn-outline-danger">@Html.ActionLink("Delete Patron", "Delete", new { id = Model.PatronId })</button>
 
