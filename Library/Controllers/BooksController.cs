@@ -15,7 +15,7 @@ namespace Library.Controllers
   public class BooksController : Controller
   {
     private readonly LibraryContext _db;
-    private readonly UserManager<ApplicationUser> _userManager; 
+    private readonly UserManager<ApplicationUser> _userManager;
 
     public BooksController(UserManager<ApplicationUser> userManager, LibraryContext db)
     {
@@ -43,51 +43,51 @@ namespace Library.Controllers
 
     // }
 
-//     public async Task<ActionResult> Index()
-// {
-//     var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-//     var currentUser = await _userManager.FindByIdAsync(userId);
-//     var userItems = _db.Items.Where(entry => entry.User.Id == currentUser.Id).ToList();
-//     return View(userItems);
-//last line shows only what the users puts in in the db items 
+    //     public async Task<ActionResult> Index()
+    // {
+    //     var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+    //     var currentUser = await _userManager.FindByIdAsync(userId);
+    //     var userItems = _db.Items.Where(entry => entry.User.Id == currentUser.Id).ToList();
+    //     return View(userItems);
+    //last line shows only what the users puts in in the db items 
 
-//for us the first two lines are the same (setting up the user id) then shows only what the user touches on the last line.  maybe another view that has books viewed by the user
-//we use var userBooks = _db.Books.Where etc to have the user only see the books they have checked out.. 
-// }
+    //for us the first two lines are the same (setting up the user id) then shows only what the user touches on the last line.  maybe another view that has books viewed by the user
+    //we use var userBooks = _db.Books.Where etc to have the user only see the books they have checked out.. 
+    // }
 
     [AllowAnonymous]
     public async Task<IActionResult> Index(string searchString)
     {
       var books = from m in _db.Books
-      select m;
+                  select m;
 
-    if (!String.IsNullOrEmpty(searchString))
-    {
+      if (!String.IsNullOrEmpty(searchString))
+      {
         books = books.Where(s => s.Title!.Contains(searchString));
-    }
+      }
       return View(await books.ToListAsync());
     }
-  [Authorize]
+    [Authorize]
     public ActionResult Create()
     {
       ViewBag.LibrarianId = new SelectList(_db.Librarians, "LibrarianId", "LibrarianName");
       ViewBag.AuthorId = new SelectList(_db.Authors, "AuthorId", "AuthorName");
       return View();
     }
-  [Authorize]
+    [Authorize]
     [HttpPost]
     public ActionResult Create(Book book, int LibrarianId, int AuthorId)
     {
-        _db.Books.Add(book);
-        _db.SaveChanges();
-        if (LibrarianId != 0)
-        {
-            _db.AuthorBookLibrarian.Add(new AuthorBookLibrarian() { LibrarianId = LibrarianId, BookId = book.BookId, AuthorId = AuthorId });
-        }
-        _db.SaveChanges();
-        return RedirectToAction("Index");
+      _db.Books.Add(book);
+      _db.SaveChanges();
+      if (LibrarianId != 0)
+      {
+        _db.AuthorBookLibrarian.Add(new AuthorBookLibrarian() { LibrarianId = LibrarianId, BookId = book.BookId, AuthorId = AuthorId });
+      }
+      _db.SaveChanges();
+      return RedirectToAction("Index");
     }
-  [Authorize]
+    [Authorize]
     public ActionResult Details(int id)
     {
       var thisBook = _db.Books
@@ -98,14 +98,14 @@ namespace Library.Controllers
           .FirstOrDefault(book => book.BookId == id);
       return View(thisBook);
     }
-  [Authorize]
+    [Authorize]
     public ActionResult Edit(int id)
     {
       var thisBook = _db.Books.FirstOrDefault(book => book.BookId == id);
       ViewBag.LibrarianId = new SelectList(_db.Librarians, "LibrarianId", "LibrarianName");
       return View(thisBook);
     }
-  [Authorize]
+    [Authorize]
     [HttpPost]
     public ActionResult Edit(Book book, int LibrarianId, int AuthorId)
     {
@@ -135,32 +135,41 @@ namespace Library.Controllers
     //   }
     //   return RedirectToAction("Index");
     // }
-  [Authorize]
+    [Authorize]
     public ActionResult AddPatron(int id)
     {
       var thisBook = _db.Books.FirstOrDefault(book => book.BookId == id);
       ViewBag.PatronId = new SelectList(_db.Patrons, "PatronId", "PatronName");
       return View(thisBook);
     }
-  [Authorize]
+    [Authorize]
     [HttpPost]
-    public ActionResult AddPatron(Book book, int PatronId)
+    public ActionResult AddPatron(Book book, int PatronId, int id, int Copies)
     {
+      if (book.Copies > 0)
+      {
+        // Work on if statement
       if (PatronId != 0)
       {
         _db.BookPatron.Add(new BookPatron() { PatronId = PatronId, BookId = book.BookId });
         _db.SaveChanges();
       }
+      book.Copies = Copies -  1;
+      _db.Entry(book).State = EntityState.Modified;
+      _db.SaveChanges();
+      }
+     
       return RedirectToAction("Index");
     }
-  [Authorize]
+
+    [Authorize]
     public ActionResult AddAuthor(int id)
     {
       var thisBook = _db.Books.FirstOrDefault(book => book.BookId == id);
       ViewBag.AuthorId = new SelectList(_db.Authors, "AuthorId", "AuthorName");
       return View(thisBook);
     }
-  [Authorize]
+    [Authorize]
     [HttpPost]
     public ActionResult AddAuthor(Book book, int AuthorId)
     {
@@ -171,13 +180,13 @@ namespace Library.Controllers
       }
       return RedirectToAction("Index");
     }
-  [Authorize]
+    [Authorize]
     public ActionResult Delete(int id)
     {
       var thisBook = _db.Books.FirstOrDefault(book => book.BookId == id);
       return View(thisBook);
     }
-  [Authorize]
+    [Authorize]
     [HttpPost, ActionName("Delete")]
     public ActionResult DeleteConfirmed(int id)
     {
@@ -186,7 +195,7 @@ namespace Library.Controllers
       _db.SaveChanges();
       return RedirectToAction("Index");
     }
-  [Authorize]
+    [Authorize]
     [HttpPost]
     public ActionResult DeletePatron(int joinId)
     {

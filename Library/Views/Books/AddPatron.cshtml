@@ -9,9 +9,14 @@
 @using (Html.BeginForm())
 {
   @Html.HiddenFor(model => model.BookId)
+  @Html.HiddenFor(model => model.Copies)
+  @Html.HiddenFor(model => model.Title)
 
   @Html.Label("Select patron")
-  @Html.DropDownList("PatronId")
+  @Html.DropDownList("PatronId")<br>
+
+  @Html.Label("Book Copies ")
+  @Html.DisplayFor(model => model.Copies)<br>
 
   <input type="submit" value="Save" />
 }

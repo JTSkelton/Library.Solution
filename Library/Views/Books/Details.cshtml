@@ -26,7 +26,6 @@
             <th>
                 Due Date
             </th>
-           
         </tr>
     </thead>
     <tbody>
@@ -38,7 +37,15 @@
                     <h4>@Html.DisplayFor(model => model.Title)</h4>
                 </td>
                 <td width 50%>
-                    <h4>@Html.DisplayFor(model => model.Copies)</h4>
+                @if(@Model.Copies == 0)
+                    {
+                      <p>There are no copies left</p>
+                    }
+                    else
+                    {
+                      <h4>@Html.DisplayFor(model => model.Copies)</h4>
+                    }
+                    
                 </td>
                 <td width 50%>
                     <h4>@Html.DisplayFor(model => model.DateDue)</h4>
@@ -55,7 +62,7 @@
 <!-- <h3>@Html.RadioButtonFor(x => x.IsCheckedOut, "Yes", true) Yes </h3>
 <h3>@Html.RadioButtonFor(x => x.IsCheckedOut, "No", false) No </h3> -->
 
-</table>
+@* </table>
     <fieldset class="form-group">
       <legend class="mt-4">Is this book checked out?</legend>
       <div class="form-check">
@@ -71,9 +78,8 @@
         </label>
       </div>
       <button type="submit" class="btn btn-primary" data-dashlane-rid="c00c28d136de9b05" data-dashlane-label="true" data-form-type="action">Submit</button>
-    </fieldset>
+    </fieldset> *@
         
-
 
 @if(@Model.BookPatronEntities.Count == 0)
 {
