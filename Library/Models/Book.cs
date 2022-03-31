@@ -15,10 +15,10 @@ namespace Library.Models
     [Key]
     public int BookId { get; set; }
     public int Copies { get; set; }
+    public int CheckedOutCopies { get; set; }
     public string Title { get; set; }
     // public string Author{ get; set; }
     public System.Boolean IsCheckedOut { get; set; }
-    public System.DateTime DateDue { get; set; } = System.DateTime.Now.AddDays(14);
     public virtual ApplicationUser User { get; set; }
     public virtual ICollection<BookPatron> BookPatronEntities { get;}
     public virtual ICollection<AuthorBookLibrarian> AuthorBookLibrarianEntities { get;}

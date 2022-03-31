@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Library.Migrations
 {
     [DbContext(typeof(LibraryContext))]
-    [Migration("20220327230825_AddIsCheckedOut")]
-    partial class AddIsCheckedOut
+    [Migration("20220331180204_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -134,11 +134,11 @@ namespace Library.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int>("Copies")
+                    b.Property<int>("CheckedOutCopies")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("DateDue")
-                        .HasColumnType("datetime(6)");
+                    b.Property<int>("Copies")
+                        .HasColumnType("int");
 
                     b.Property<bool>("IsCheckedOut")
                         .HasColumnType("tinyint(1)");
@@ -164,6 +164,9 @@ namespace Library.Migrations
 
                     b.Property<int>("BookId")
                         .HasColumnType("int");
+
+                    b.Property<DateTime>("DateDue")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<int>("PatronId")
                         .HasColumnType("int");

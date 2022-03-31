@@ -118,23 +118,6 @@ namespace Library.Controllers
       return RedirectToAction("Index");
     }
 
-    // public ActionResult AddLibrarian(int id)
-    // {
-    //   var thisBook = _db.Books.FirstOrDefault(book => book.BookId == id);
-    //   ViewBag.LibrarianId = new SelectList(_db.Librarians, "LibrarianId", "LibrarianName");
-    //   return View(thisBook);
-    // }
-
-    // [HttpPost]
-    // public ActionResult AddLibrarian(Book book, int LibrarianId)
-    // {
-    //   if (LibrarianId != 0)
-    //   {
-    //     _db.BookLibrarian.Add(new BookLibrarian() { LibrarianId = LibrarianId, BookId = book.BookId });
-    //     _db.SaveChanges();
-    //   }
-    //   return RedirectToAction("Index");
-    // }
     [Authorize]
     public ActionResult AddPatron(int id)
     {
@@ -144,21 +127,17 @@ namespace Library.Controllers
     }
     [Authorize]
     [HttpPost]
-    public ActionResult AddPatron(Book book, int PatronId, int id, int Copies)
+    public ActionResult AddPatron(Book book, int PatronId, int id, int Copies, int CheckedOutCopies)
     {
-      if (book.Copies > 0)
-      {
-        // Work on if statement
       if (PatronId != 0)
       {
         _db.BookPatron.Add(new BookPatron() { PatronId = PatronId, BookId = book.BookId });
         _db.SaveChanges();
       }
       book.Copies = Copies -  1;
+      book.CheckedOutCopies = CheckedOutCopies +  1;
       _db.Entry(book).State = EntityState.Modified;
-      _db.SaveChanges();
-      }
-     
+      _db.SaveChanges();   
       return RedirectToAction("Index");
     }
 
@@ -197,8 +176,12 @@ namespace Library.Controllers
     }
     [Authorize]
     [HttpPost]
-    public ActionResult DeletePatron(int joinId)
+    public ActionResult DeletePatron(Book book, int joinId, int Copies, int CheckedOutCopies)
     {
+      book.Copies = Copies +  1;
+      book.CheckedOutCopies = CheckedOutCopies -  1;
+      _db.Entry(book).State = EntityState.Modified;
+      _db.SaveChanges();
       var joinEntry = _db.BookPatron.FirstOrDefault(entry => entry.BookPatronId == joinId);
       _db.BookPatron.Remove(joinEntry);
       _db.SaveChanges();
