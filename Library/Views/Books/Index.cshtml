@@ -25,6 +25,9 @@
         Book Title
       </th>
       <th>
+        Author
+      </th>
+      <th>
         Remaining Copies
       </th>
       <th>
@@ -33,32 +36,35 @@
     </tr>
   </thead>
   <tbody>
-    @foreach (Book book in Model)
+    @foreach (AuthorBookLibrarian book in Model)
     {
       <tr class="table table-hover table-dark">
         <td width 10%>
-          @book.BookId
+          @book.Book.BookId
         </td>
         <td width 50%>
-          @book.Title
+          @book.Book.Title
         </td>
         <td width 50%>
-          @book.Copies
+        @book.Author.AuthorName 
         </td>
         <td width 50%>
-          @book.CheckedOutCopies
+          @book.Book.Copies
         </td>
         <td width 50%>
-          @Html.ActionLink("Check Out", "AddPatron", new { id = book.BookId }, new { @class = "btn btn-outline-success" })
+          @book.Book.CheckedOutCopies
         </td>
         <td width 50%>
-          @Html.ActionLink("Details", "Details", new { id = book.BookId }, new { @class = "btn btn-outline-info" })
+          @Html.ActionLink("Check Out", "AddPatron", new { id = book.AuthorBookLibraianId }, new { @class = "btn btn-outline-success" })
         </td>
         <td width 50%>
-          @Html.ActionLink("Edit Book", "Edit", new { id = book.BookId }, new { @class = "btn btn-outline-info" })
+          @Html.ActionLink("Details", "Details", new { id = book.AuthorBookLibraianId }, new { @class = "btn btn-outline-info" })
         </td>
         <td width 50%>
-          @Html.ActionLink("Delete Book", "Delete", new { id = book.BookId }, new { @class = "btn btn-outline-danger" })
+          @Html.ActionLink("Edit Book", "Edit", new { id = book.AuthorBookLibraianId }, new { @class = "btn btn-outline-warning" })
+        </td>
+        <td width 50%>
+          @Html.ActionLink("Delete Book", "Delete", new { id = book.AuthorBookLibraianId }, new { @class = "btn btn-outline-danger" })
         </td>
       </tr>
     }

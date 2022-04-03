@@ -9,9 +9,13 @@ namespace Library.Controllers
   public class PatronsController : Controller
   {
     private readonly LibraryContext _db;
+//  private readonly UserManager<ApplicationUser> _userManager;
 
     public PatronsController(LibraryContext db)
     {
+ //  public PatronsController(UserManager<ApplicationUser> userManager, LibraryContext db)
+   // {
+       //  _userManager = userManager;
       _db = db;
     }
 
@@ -20,12 +24,12 @@ namespace Library.Controllers
       List<Patron> model = _db.Patrons.ToList();
       return View(model);
     }
-
+//[Authorize]
     public ActionResult Create()
     {
       return View();
     }
-
+//[Authorize]
     [HttpPost]
     public ActionResult Create(Patron author)
     {

@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using Library.Models;
 using System.Collections.Generic;
 using System.Linq;
+using System;
+using System.Threading.Tasks;
 
 namespace Library.Controllers
 {
@@ -15,10 +17,22 @@ namespace Library.Controllers
       _db = db;
     }
 
-    public ActionResult Index()
+    // public ActionResult Index()
+    // {
+    //   List<Author> model = _db.Authors.ToList();
+    //   return View(model);
+    // }
+
+    public async Task<IActionResult> Index(string searchString)
     {
-      List<Author> model = _db.Authors.ToList();
-      return View(model);
+      var authors = from m in _db.Authors
+      select m;
+
+    if (!String.IsNullOrEmpty(searchString))
+    {
+        authors = authors.Where(s => s.AuthorName!.Contains(searchString));
+    }
+      return View(await authors.ToListAsync());
     }
 
     public ActionResult Create()

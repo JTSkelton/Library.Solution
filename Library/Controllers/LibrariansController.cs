@@ -11,12 +11,17 @@ using System;
 
 namespace Library.Controllers
 {
+[Authorize]
   public class LibrariansController : Controller
   {
     private readonly LibraryContext _db;
+    private readonly UserManager<ApplicationUser> _userManager;
 
-    public LibrariansController(LibraryContext db)
+
+    // public LibrariansController(LibraryContext db)
+  public LibrariansController(UserManager<ApplicationUser> userManager, LibraryContext db)
     {
+    _userManager = userManager;
       _db = db;
     }
 
@@ -31,12 +36,12 @@ namespace Library.Controllers
     }
       return View(await librarians.ToListAsync());
     }
-
+[Authorize]
     public ActionResult Create()
     {
       return View();
     }
-
+[Authorize]
     [HttpPost]
     public ActionResult Create(Librarian librarian)
     {

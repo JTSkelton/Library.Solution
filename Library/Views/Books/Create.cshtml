@@ -2,18 +2,29 @@
   Layout = "_Layout";
 }
 
-@model Library.Models.Book
 
-<h4>Add a New Book</h4>
-@using (Html.BeginForm())
-{
-  @Html.LabelFor(model => model.Title)
-  @Html.TextBoxFor(model => model.Title)
+    @model Library.Models.Book
 
-  @Html.LabelFor(model => model.Copies)
-  @Html.TextBoxFor(model => model.Copies)
+    <h4>Add a New Book</h4>
+    @using (Html.BeginForm())
+    {
+      @Html.ValidationSummary() 
+
+      @Html.LabelFor(model => model.Title) 
+      @Html.TextBoxFor(model => model.Title, new { @required  = "required"})
 
 
-  <button type="submit" class="btn btn-primary" style="width:250px">Add New Book</button>
-}
-<p>@Html.ActionLink("Show all Books", "Index")</p>
+      @Html.LabelFor(model => model.Copies)
+      @Html.TextBoxFor(model => model.Copies, new { @required  = "required"})
+
+      @Html.Label("Select Author")
+      @Html.DropDownList("AuthorId")
+
+      @Html.Label("Select Librarian")
+      @Html.DropDownList("LibrarianId")
+
+      <button type="submit" class="btn btn-outline-success" >Add New Book</button>
+
+    }
+
+<button type="submit" class="btn btn-outline-warning" >@Html.ActionLink("Show all Books", "Index")</button>

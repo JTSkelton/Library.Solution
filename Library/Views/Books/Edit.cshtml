@@ -2,21 +2,27 @@
   Layout = "_Layout";
 }
 
-@model Library.Models.Book;
+@using Library.Models
 
 <h2>Edit</h2>
 
-<h4>Edit this Book: @Html.DisplayFor(model => model.Title)</h4>
+<h4>Edit this Book: @Html.DisplayFor(model => model)</h4>
 
 @using (Html.BeginForm())
 {
-  @Html.HiddenFor(model => model.BookId)
+  @Html.HiddenFor(model => model.AuthorBookLibraianId)
 
-  @Html.LabelFor(model => model.Title)
-  @Html.EditorFor(model => model.Title)
+  @Html.LabelFor(model => model.Book.Title)
+  @Html.EditorFor(model => model.Book.Title)
 
-  @Html.LabelFor(model => model.Copies)
-  @Html.EditorFor(model => model.Copies)
+  @Html.LabelFor(model => model.Book.Copies)
+  @Html.EditorFor(model => model.Book.Copies)
+
+  @Html.Label("Select Author")
+  @Html.DropDownList("AuthorId")
+
+  @Html.Label("Select Librarian")
+  @Html.DropDownList("LibrarianId")
 
   <input type="submit" value="Save" />
 }

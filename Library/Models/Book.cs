@@ -14,8 +14,10 @@ namespace Library.Models
 
     [Key]
     public int BookId { get; set; }
+    [Required(ErrorMessage = "Please enter copies")]
     public int Copies { get; set; }
     public int CheckedOutCopies { get; set; }
+    [Required(ErrorMessage = "Please enter title")] 
     public string Title { get; set; }
     // public string Author{ get; set; }
     public System.Boolean IsCheckedOut { get; set; }

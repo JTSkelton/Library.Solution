@@ -6,9 +6,12 @@
 &nbsp;
 <h2>Login to your account</h2>
 <hr />
+
 @if (User.Identity.IsAuthenticated)
 {
     <h1>Hello @User.Identity.Name!</h1>
+       <!-- <button type="button" class="btn-outline-info">@Html.ActionLink("Register", "Register")</button>
+    <button type="button" class="btn-outline-info">@Html.ActionLink("Log in", "Login")</button> -->
     @using (Html.BeginForm("LogOff", "Account"))
     {
         <input type="submit" class="btn btn-outline-danger" value="Log out" />
@@ -16,8 +19,9 @@
 }
 else
 {
+
     <button type="button" class="btn-outline-info">@Html.ActionLink("Register", "Register")</button>
-    <button type="button" class="btn-outline-info">@Html.ActionLink("Log in", "Login")</button>
+    <button type="button" class="btn-outline-info">@Html.ActionLink("Log in", "Login")</button> 
 }
 <br />
 <br />

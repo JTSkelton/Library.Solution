@@ -41,32 +41,24 @@ namespace Library.Controllers
     //   // return View(model);
     //   // }
 
-    // }
+    // List<AuthorBookLibrarian> books = _db.AuthorBookLibrarian.ToList();
+     // return View(books);
 
-    //     public async Task<ActionResult> Index()
-    // {
-    //     var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-    //     var currentUser = await _userManager.FindByIdAsync(userId);
-    //     var userItems = _db.Items.Where(entry => entry.User.Id == currentUser.Id).ToList();
-    //     return View(userItems);
-    //last line shows only what the users puts in in the db items 
 
-    //for us the first two lines are the same (setting up the user id) then shows only what the user touches on the last line.  maybe another view that has books viewed by the user
-    //we use var userBooks = _db.Books.Where etc to have the user only see the books they have checked out.. 
-    // }
 
     [AllowAnonymous]
-    public async Task<IActionResult> Index(string searchString)
+    public  async Task<IActionResult> Index(string searchString)
     {
-      var books = from m in _db.Books
-                  select m;
+      var authorbook = from m in _db.AuthorBookLibrarian
+      select m;
 
-      if (!String.IsNullOrEmpty(searchString))
-      {
-        books = books.Where(s => s.Title!.Contains(searchString));
-      }
-      return View(await books.ToListAsync());
+    if (!String.IsNullOrEmpty(searchString))
+    {
+        authorbook = authorbook.Where(s => s.Book.Title!.Contains(searchString));
     }
+      return View(await authorbook.ToListAsync());
+    }
+
     [Authorize]
     public ActionResult Create()
     {
@@ -83,8 +75,8 @@ namespace Library.Controllers
       if (LibrarianId != 0)
       {
         _db.AuthorBookLibrarian.Add(new AuthorBookLibrarian() { LibrarianId = LibrarianId, BookId = book.BookId, AuthorId = AuthorId });
+        _db.SaveChanges();
       }
-      _db.SaveChanges();
       return RedirectToAction("Index");
     }
     [Authorize]
@@ -99,24 +91,23 @@ namespace Library.Controllers
       return View(thisBook);
     }
     [Authorize]
-    public ActionResult Edit(int id)
+    public ActionResult Edit(int bookid)
     {
-      var thisBook = _db.Books.FirstOrDefault(book => book.BookId == id);
+      var thisBook = _db.AuthorBookLibrarian.FirstOrDefault(book => book.BookId == bookid);
       ViewBag.LibrarianId = new SelectList(_db.Librarians, "LibrarianId", "LibrarianName");
+      ViewBag.AuthorId = new SelectList(_db.Authors, "AuthorId", "AuthorName");      
       return View(thisBook);
     }
+
     [Authorize]
     [HttpPost]
-    public ActionResult Edit(Book book, int LibrarianId, int AuthorId)
+    public ActionResult Edit(AuthorBookLibrarian authorbook)
     {
-      if (LibrarianId != 0)
-      {
-        _db.AuthorBookLibrarian.Add(new AuthorBookLibrarian() { LibrarianId = LibrarianId, BookId = book.BookId, AuthorId = AuthorId });
-      }
-      _db.Entry(book).State = EntityState.Modified;
+      _db.Entry(authorbook).State = EntityState.Modified;
       _db.SaveChanges();
       return RedirectToAction("Index");
     }
+
 
     [Authorize]
     public ActionResult AddPatron(int id)
@@ -134,10 +125,10 @@ namespace Library.Controllers
         _db.BookPatron.Add(new BookPatron() { PatronId = PatronId, BookId = book.BookId });
         _db.SaveChanges();
       }
-      book.Copies = Copies -  1;
-      book.CheckedOutCopies = CheckedOutCopies +  1;
+      book.Copies = Copies - 1;
+      book.CheckedOutCopies = CheckedOutCopies + 1;
       _db.Entry(book).State = EntityState.Modified;
-      _db.SaveChanges();   
+      _db.SaveChanges();
       return RedirectToAction("Index");
     }
 
@@ -149,6 +140,7 @@ namespace Library.Controllers
       return View(thisBook);
     }
     [Authorize]
+
     [HttpPost]
     public ActionResult AddAuthor(Book book, int AuthorId)
     {
@@ -178,8 +170,8 @@ namespace Library.Controllers
     [HttpPost]
     public ActionResult DeletePatron(Book book, int joinId, int Copies, int CheckedOutCopies)
     {
-      book.Copies = Copies +  1;
-      book.CheckedOutCopies = CheckedOutCopies -  1;
+      book.Copies = Copies + 1;
+      book.CheckedOutCopies = CheckedOutCopies - 1;
       _db.Entry(book).State = EntityState.Modified;
       _db.SaveChanges();
       var joinEntry = _db.BookPatron.FirstOrDefault(entry => entry.BookPatronId == joinId);
