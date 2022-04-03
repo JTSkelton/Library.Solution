@@ -4,21 +4,68 @@
 
 @model Library.Models.Book
 
-<h2>Add a patron</h2>
+<h2>Check Out Book</h2>
 
-@using (Html.BeginForm())
-{
-  @Html.HiddenFor(model => model.BookId)
-  @Html.HiddenFor(model => model.Copies)
-  @Html.HiddenFor(model => model.Title)
+<table class ="table table-borderd table-striped" style="width: 100%">
+    <thead>
+        <tr>
+            <th>
+                Id
+            </th>
+            <th>
+                Book Title
+            </th>
+            <th>
+                Book Copies
+            </th>
+            <th>
+                Patron
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+            <tr class="table table-hover table-dark">
+                <td width 10%>
+                    <h4>@Html.DisplayFor(model => model.BookId)</h4>
+                </td>
+                <td width 50%>
+                    <h4>@Html.DisplayFor(model => model.Title)</h4>
+                </td>
+                <td width 50%>
+                @if(@Model.Copies == 0)
+                    {
+                      <p>There are no copies left</p>
+                    }
+                    else
+                    {
+                      <h4>@Html.DisplayFor(model => model.Copies)</h4>
+                    }
+                    
+                </td>
+                <td width 50%>
+                  @if(@Model.Copies == 0)
+                    {
+                      <p>Please return to books</p>
+                    }
+                    else
+                    {
+                      @using (Html.BeginForm())
+                    {
+                      @Html.HiddenFor(model => model.BookId)
+                      @Html.HiddenFor(model => model.Copies)
+                      @Html.HiddenFor(model => model.CheckedOutCopies)
+                      @Html.HiddenFor(model => model.Title)
+                      @Html.HiddenFor(model => model.BookPatronEntities)
+                      @Html.DropDownList("PatronId")<br>
+                    
+                <td>
+                  <input type="submit" value="Check Out" class = "btn btn-outline-success" />
+                </td>
+                    }
+                    }
+                </td>
+            </tr>
+    </tbody>
+  </table>
 
-  @Html.Label("Select patron")
-  @Html.DropDownList("PatronId")<br>
-
-  @Html.Label("Book Copies ")
-  @Html.DisplayFor(model => model.Copies)<br>
-
-  <input type="submit" value="Save" />
-}
-
-<p>@Html.ActionLink("Back to list", "Index")</p>
+@Html.ActionLink("Back to Books", "Index", new { id = Model.BookId }, new { @class = "btn btn-outline-info" })

@@ -4,10 +4,6 @@
 
 @model Library.Models.Book
 
-
-
-
-<br>
 <h1>@Html.DisplayFor(model => model.Title)'s Details</h1>
 
 
@@ -22,9 +18,6 @@
             </th>
             <th>
                 Book Copies
-            </th>
-            <th>
-                Due Date
             </th>
         </tr>
     </thead>
@@ -48,9 +41,6 @@
                     
                 </td>
                 <td width 50%>
-                    <h4>@Html.DisplayFor(model => model.DateDue)</h4>
-                </td>
-                <td width 50%>
                     @Html.ActionLink("Edit Book", "Edit", new { id = Model.BookId }, new { @class = "btn btn-outline-info" })
                 </td>
                 <td width 50%>
@@ -58,28 +48,7 @@
                 </td>
             </tr>
     </tbody>
-
-<!-- <h3>@Html.RadioButtonFor(x => x.IsCheckedOut, "Yes", true) Yes </h3>
-<h3>@Html.RadioButtonFor(x => x.IsCheckedOut, "No", false) No </h3> -->
-
-@* </table>
-    <fieldset class="form-group">
-      <legend class="mt-4">Is this book checked out?</legend>
-      <div class="form-check">
-        <label class="form-check-label" data-dashlane-label="true">
-          <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios1" value="option1" checked="" data-dashlane-rid="bae0c88484cac5e9" data-form-type="other">
-          Yes
-        </label>
-      </div>
-      <div class="form-check">
-        <label class="form-check-label" data-dashlane-label="false">
-          <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios2" value="option2" data-dashlane-rid="44aeaef15ff3ce99" data-form-type="other">
-          No
-        </label>
-      </div>
-      <button type="submit" class="btn btn-primary" data-dashlane-rid="c00c28d136de9b05" data-dashlane-label="true" data-form-type="action">Submit</button>
-    </fieldset> *@
-        
+  </table>
 
 @if(@Model.BookPatronEntities.Count == 0)
 {
@@ -87,8 +56,7 @@
 }
 else
 {
-  <h1>@Html.DisplayFor(model => model.Title)'s Patron holds:</h1>
-
+<h2>Checked Out Book's Patrons:</h2>
     <table class ="table table-borderd table-striped" style="width: 100%">
     <thead>
         <tr>
@@ -97,6 +65,9 @@ else
             </th>
             <th>
               Patron Name
+            </th>
+            <th>
+               Reurn Due Date
             </th>
         </tr>
     </thead>
@@ -110,14 +81,21 @@ else
                 <td width 50%>
                   <h4>@join.Patron.PatronName</h4>
                 </td>
+                <td width 50%>
+                  <h4>@join.DateDue</h4>
+                </td>
                 <td>
                 @Html.ActionLink("Details", "Details", "Patrons", new { id = @join.Patron.PatronId}, new { @class = "btn btn-outline-info" })
                 </td>
                 <td>
                 @using (Html.BeginForm("DeletePatron", "Books"))
                     {
+                      @Html.HiddenFor(model => model.BookId)
+                      @Html.HiddenFor(model => model.Copies)
+                      @Html.HiddenFor(model => model.CheckedOutCopies)
+                      @Html.HiddenFor(model => model.Title)
                     @Html.Hidden("joinId", @join.BookPatronId)
-                        <input type="submit" value="Remove Patron" class = "btn btn-outline-danger" />
+                        <input type="submit" value="Return Book" class = "btn btn-outline-danger" />
                     }
                 </td>
             </tr>
@@ -125,6 +103,5 @@ else
     </tbody>
 </table>
   }
-@Html.ActionLink("Add Patron", "AddPatron", new { id = Model.BookId }, new { @class = "btn btn-outline-success" })
 
-@Html.ActionLink("Back to Catalog", "Index", new { id = Model.BookId }, new { @class = "btn btn-outline-info" })
+@Html.ActionLink("Back to Books", "Index", new { id = Model.BookId }, new { @class = "btn btn-outline-info" })

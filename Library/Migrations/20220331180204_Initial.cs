@@ -206,8 +206,9 @@ namespace Library.Migrations
                     BookId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Copies = table.Column<int>(type: "int", nullable: false),
+                    CheckedOutCopies = table.Column<int>(type: "int", nullable: false),
                     Title = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
-                    DateDue = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    IsCheckedOut = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     UserId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: true)
                 },
                 constraints: table =>
@@ -261,7 +262,8 @@ namespace Library.Migrations
                     BookPatronId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     BookId = table.Column<int>(type: "int", nullable: false),
-                    PatronId = table.Column<int>(type: "int", nullable: false)
+                    PatronId = table.Column<int>(type: "int", nullable: false),
+                    DateDue = table.Column<DateTime>(type: "datetime(6)", nullable: false)
                 },
                 constraints: table =>
                 {

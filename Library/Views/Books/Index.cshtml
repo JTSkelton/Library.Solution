@@ -12,14 +12,8 @@
         <input type="submit" value="Search" />
     </p>
 </form>
-@* <p>
-  @using (Html.BeginForm("Index", "Books", FormMethod.Get))
-  {
-    <strong>Search by: &nbsp; </strong> @Html.RadioButton("searchBy", "Title", true) <text>&nbsp; &nbsp; Title</text>
-    @Html.RadioButton("searchBy", "Author") <text>&nbsp; &nbsp; Author</text><br /><br />
-    @Html.TextBox("search") <input type="submit" value="Search" />
-  }
-</p> *@
+
+<button type="button" class="btn btn-outline-success">@Html.ActionLink("Add New Book", "Create")</button>
 
 <table class="table table-borderd table-striped" style="width: 100%">
   <thead>
@@ -31,10 +25,10 @@
         Book Title
       </th>
       <th>
-        Book Copies
+        Remaining Copies
       </th>
       <th>
-        Due Date
+        Checked Out Copies
       </th>
     </tr>
   </thead>
@@ -52,7 +46,10 @@
           @book.Copies
         </td>
         <td width 50%>
-          @book.DateDue
+          @book.CheckedOutCopies
+        </td>
+        <td width 50%>
+          @Html.ActionLink("Check Out", "AddPatron", new { id = book.BookId }, new { @class = "btn btn-outline-success" })
         </td>
         <td width 50%>
           @Html.ActionLink("Details", "Details", new { id = book.BookId }, new { @class = "btn btn-outline-info" })
@@ -67,7 +64,3 @@
     }
   </tbody>
 </table>
-
-
-<button type="button" class="btn btn-outline-success">@Html.ActionLink("Add New Book", "Create")</button>
-<button type="button" class="btn btn-outline-warning">@Html.ActionLink("Home", "Index", "Home")</button>

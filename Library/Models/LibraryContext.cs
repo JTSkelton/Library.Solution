@@ -18,25 +18,5 @@ namespace Library.Models
     {
       optionsBuilder.UseLazyLoadingProxies();
     }
-
-  // public class LibraryContext : IdentityDbContext<LibrarianUser>
-  //above for the ApplicationUser we can ermove some of the DB's 
-  // {
-  //   public DbSet<Book> Books { get; set; }
-  //   public DbSet<Librarian> Librarians { get; set; }
-  //   public DbSet<Author> Authors { get; set; }
-  //   public DbSet<AuthorBookLibrarian> AuthorBookLibrarian { get; set; }
-  //   public DbSet<BookPatron> BookPatron { get; set; }
-
-  //   public LibraryContext(DbContextOptions options) : base(options) { }
-
-  //   protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-  //   {
-  //     optionsBuilder.UseLazyLoadingProxies();
-  //   }
-
-
-
-
   }
 }
