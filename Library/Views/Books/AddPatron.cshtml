@@ -16,7 +16,13 @@
                 Book Title
             </th>
             <th>
-                Book Copies
+                Book Title
+            </th>
+            <th>
+                Book Author
+            </th>
+            <th>
+                Book Genre
             </th>
             <th>
                 Patron
@@ -30,6 +36,12 @@
                 </td>
                 <td width 50%>
                     <h4>@Html.DisplayFor(model => model.Title)</h4>
+                </td>
+                <td width 50%>
+                    <h4>@Html.DisplayFor(model => model.Author)</h4>
+                </td>
+                <td width 50%>
+                    <h4>@Html.DisplayFor(model => model.Genre)</h4>
                 </td>
                 <td width 50%>
                 @if(@Model.Copies == 0)
@@ -55,6 +67,8 @@
                       @Html.HiddenFor(model => model.Copies)
                       @Html.HiddenFor(model => model.CheckedOutCopies)
                       @Html.HiddenFor(model => model.Title)
+                      @Html.HiddenFor(model => model.Author)
+                      @Html.HiddenFor(model => model.Genre)
                       @Html.HiddenFor(model => model.BookPatronEntities)
                       @Html.DropDownList("PatronId")<br>
                     

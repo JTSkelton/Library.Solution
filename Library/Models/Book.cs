@@ -9,7 +9,6 @@ namespace Library.Models
     public Book()
         {
             this.BookPatronEntities = new HashSet<BookPatron>();
-            this.AuthorBookLibrarianEntities = new HashSet<AuthorBookLibrarian>();
         }
 
     [Key]
@@ -19,15 +18,11 @@ namespace Library.Models
     public int CheckedOutCopies { get; set; }
     [Required(ErrorMessage = "Please enter title")] 
     public string Title { get; set; }
-    // public string Author{ get; set; }
-    public System.Boolean IsCheckedOut { get; set; }
+    public string Author{ get; set; }
+    public string Genre{ get; set; }
+    public bool IsCheckedOut { get; set; }
     public virtual ApplicationUser User { get; set; }
     public virtual ICollection<BookPatron> BookPatronEntities { get;}
-    public virtual ICollection<AuthorBookLibrarian> AuthorBookLibrarianEntities { get;}
     
   }
 }
-
-// DateTime dt4 = dt.AddDays(65);
-// DateTime today = DateTime.Now;
-//         DateTime answer = today.AddDays(36);

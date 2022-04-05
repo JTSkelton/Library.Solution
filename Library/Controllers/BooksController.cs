@@ -49,12 +49,12 @@ namespace Library.Controllers
     [AllowAnonymous]
     public  async Task<IActionResult> Index(string searchString)
     {
-      var authorbook = from m in _db.AuthorBookLibrarian
+      var authorbook = from m in _db.Books
       select m;
 
     if (!String.IsNullOrEmpty(searchString))
     {
-        authorbook = authorbook.Where(s => s.Book.Title!.Contains(searchString));
+        authorbook = authorbook.Where(s => s.Title!.Contains(searchString));
     }
       return View(await authorbook.ToListAsync());
     }
@@ -63,18 +63,17 @@ namespace Library.Controllers
     public ActionResult Create()
     {
       ViewBag.LibrarianId = new SelectList(_db.Librarians, "LibrarianId", "LibrarianName");
-      ViewBag.AuthorId = new SelectList(_db.Authors, "AuthorId", "AuthorName");
       return View();
     }
     [Authorize]
     [HttpPost]
-    public ActionResult Create(Book book, int LibrarianId, int AuthorId)
+    public ActionResult Create(Book book, int BookId)
     {
       _db.Books.Add(book);
       _db.SaveChanges();
-      if (LibrarianId != 0)
+      if (BookId != 0)
       {
-        _db.AuthorBookLibrarian.Add(new AuthorBookLibrarian() { LibrarianId = LibrarianId, BookId = book.BookId, AuthorId = AuthorId });
+        _db.Books.Add(new Book() { BookId = book.BookId });
         _db.SaveChanges();
       }
       return RedirectToAction("Index");
@@ -83,27 +82,24 @@ namespace Library.Controllers
     public ActionResult Details(int id)
     {
       var thisBook = _db.Books
-          .Include(book => book.AuthorBookLibrarianEntities)
-          .ThenInclude(join => join.Librarian)
           .Include(book => book.BookPatronEntities)
           .ThenInclude(join => join.Patron)
           .FirstOrDefault(book => book.BookId == id);
       return View(thisBook);
     }
     [Authorize]
-    public ActionResult Edit(int bookid)
+    public ActionResult Edit(int id)
     {
-      var thisBook = _db.AuthorBookLibrarian.FirstOrDefault(book => book.BookId == bookid);
+      var thisBook = _db.Books.FirstOrDefault(book => book.BookId == id);
       ViewBag.LibrarianId = new SelectList(_db.Librarians, "LibrarianId", "LibrarianName");
-      ViewBag.AuthorId = new SelectList(_db.Authors, "AuthorId", "AuthorName");      
       return View(thisBook);
     }
 
     [Authorize]
     [HttpPost]
-    public ActionResult Edit(AuthorBookLibrarian authorbook)
+    public ActionResult Edit(Book book)
     {
-      _db.Entry(authorbook).State = EntityState.Modified;
+      _db.Entry(book).State = EntityState.Modified;
       _db.SaveChanges();
       return RedirectToAction("Index");
     }
@@ -118,7 +114,7 @@ namespace Library.Controllers
     }
     [Authorize]
     [HttpPost]
-    public ActionResult AddPatron(Book book, int PatronId, int id, int Copies, int CheckedOutCopies)
+    public ActionResult AddPatron(Book book, int PatronId, int id, int Copies, int CheckedOutCopies, string Genre, string Title)
     {
       if (PatronId != 0)
       {
@@ -131,26 +127,7 @@ namespace Library.Controllers
       _db.SaveChanges();
       return RedirectToAction("Index");
     }
-
-    [Authorize]
-    public ActionResult AddAuthor(int id)
-    {
-      var thisBook = _db.Books.FirstOrDefault(book => book.BookId == id);
-      ViewBag.AuthorId = new SelectList(_db.Authors, "AuthorId", "AuthorName");
-      return View(thisBook);
-    }
-    [Authorize]
-
-    [HttpPost]
-    public ActionResult AddAuthor(Book book, int AuthorId)
-    {
-      if (AuthorId != 0)
-      {
-        _db.AuthorBookLibrarian.Add(new AuthorBookLibrarian() { AuthorId = AuthorId, BookId = book.BookId });
-        _db.SaveChanges();
-      }
-      return RedirectToAction("Index");
-    }
+    
     [Authorize]
     public ActionResult Delete(int id)
     {

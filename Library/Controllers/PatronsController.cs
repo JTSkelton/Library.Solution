@@ -9,13 +9,13 @@ namespace Library.Controllers
   public class PatronsController : Controller
   {
     private readonly LibraryContext _db;
-//  private readonly UserManager<ApplicationUser> _userManager;
+    //private readonly UserManager<ApplicationUser> _userManager;
 
     public PatronsController(LibraryContext db)
     {
- //  public PatronsController(UserManager<ApplicationUser> userManager, LibraryContext db)
-   // {
-       //  _userManager = userManager;
+    // public PatronsController(UserManager<ApplicationUser> userManager, LibraryContext db)
+    // {
+    //   _userManager = userManager;
       _db = db;
     }
 
@@ -24,7 +24,8 @@ namespace Library.Controllers
       List<Patron> model = _db.Patrons.ToList();
       return View(model);
     }
-//[Authorize]
+    //[Authorize]
+
     public ActionResult Create()
     {
       return View();
@@ -74,5 +75,20 @@ namespace Library.Controllers
       _db.SaveChanges();
       return RedirectToAction("Index");
     }
+    // public ActionResult CheckoutBook (Book book, int PatronId, int id, int Copies, int CheckedOutCopies)
+    // {
+    //   if (PatronId != 0)
+    //   {
+    //     _db.BookPatron.Add(new BookPatron() { PatronId = PatronId, BookId = book.BookId });
+    //     _db.SaveChanges();
+    //   }
+    //   book.Copies = Copies - 1;
+    //   book.CheckedOutCopies = CheckedOutCopies + 1;
+    //   _db.Entry(book).State = EntityState.Modified;
+    //   _db.SaveChanges();
+    //   return RedirectToAction("Index");
+    // }
+
+
   }
 }

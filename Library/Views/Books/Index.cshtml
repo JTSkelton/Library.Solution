@@ -28,6 +28,9 @@
         Author
       </th>
       <th>
+        Genre
+      </th>
+      <th>
         Remaining Copies
       </th>
       <th>
@@ -36,35 +39,38 @@
     </tr>
   </thead>
   <tbody>
-    @foreach (AuthorBookLibrarian book in Model)
+    @foreach (Book book in Model)
     {
       <tr class="table table-hover table-dark">
         <td width 10%>
-          @book.Book.BookId
+          @book.BookId
         </td>
         <td width 50%>
-          @book.Book.Title
+          @book.Title
         </td>
         <td width 50%>
-        @book.Author.AuthorName 
+        @book.Author 
         </td>
         <td width 50%>
-          @book.Book.Copies
+        @book.Genre 
         </td>
         <td width 50%>
-          @book.Book.CheckedOutCopies
+          @book.Copies
         </td>
         <td width 50%>
-          @Html.ActionLink("Check Out", "AddPatron", new { id = book.AuthorBookLibraianId }, new { @class = "btn btn-outline-success" })
+          @book.CheckedOutCopies
         </td>
         <td width 50%>
-          @Html.ActionLink("Details", "Details", new { id = book.AuthorBookLibraianId }, new { @class = "btn btn-outline-info" })
+          @Html.ActionLink("Check Out", "AddPatron", new { id = book.BookId }, new { @class = "btn btn-outline-success" })
         </td>
         <td width 50%>
-          @Html.ActionLink("Edit Book", "Edit", new { id = book.AuthorBookLibraianId }, new { @class = "btn btn-outline-warning" })
+          @Html.ActionLink("Details", "Details", new { id = book.BookId }, new { @class = "btn btn-outline-info" })
         </td>
         <td width 50%>
-          @Html.ActionLink("Delete Book", "Delete", new { id = book.AuthorBookLibraianId }, new { @class = "btn btn-outline-danger" })
+          @Html.ActionLink("Edit Book", "Edit", new { id = book.BookId }, new { @class = "btn btn-outline-warning" })
+        </td>
+        <td width 50%>
+          @Html.ActionLink("Delete Book", "Delete", new { id = book.BookId }, new { @class = "btn btn-outline-danger" })
         </td>
       </tr>
     }
