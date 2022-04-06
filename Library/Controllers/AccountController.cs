@@ -1,11 +1,15 @@
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Identity;
-using Library.Models;
 using System.Threading.Tasks;
-using Library.ViewModels;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Library.Models;
+using Library.Models.AccountViewModels;
 
 namespace Library.Controllers
 {
+    [Authorize]
+    [Route("[controller]/[action]")]
     public class AccountController : Controller
     {
         private readonly LibraryContext _db;
@@ -29,7 +33,7 @@ namespace Library.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Register (RegisterViewModel model)
+        public async Task<ActionResult> Register (Models.AccountViewModels.RegisterViewModel model)
         {
             var user = new ApplicationUser { UserName = model.Email };
             IdentityResult result = await _userManager.CreateAsync(user, model.Password);

@@ -1,0 +1,24 @@
+@{
+  Layout = "_Layout";
+}
+
+@{
+    ViewData["Title"] = "Access denied";
+}
+
+<header>
+    <h2 class="text-danger">@ViewData["Title"]</h2>
+    <p>You do not have access to this resource.</p>
+    @if (User.IsInRole("Admin"))
+    {
+        <h2>You can not access: <span class="text-success">@ViewData["ReturnUrl"]</span> because you are an <span class="text-danger">Admin!</span></h2>
+    }
+    @if (User.IsInRole("Librarian"))
+    {
+        <h2>You can not access: <span class="text-success">@ViewData["ReturnUrl"]</span> because you are a <span class="text-danger">Librarian!</span></h2>
+    }
+    @if (User.IsInRole("Patron"))
+    {
+        <h2>You can not access: <span class="text-success">@ViewData["ReturnUrl"]</span> because you are a <span class="text-danger">Patron!</span></h2>
+    }
+</header>
