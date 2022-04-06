@@ -105,14 +105,14 @@ namespace Library.Controllers
     }
 
 
-    [Authorize]
+    [AllowAnonymous]
     public ActionResult AddPatron(int id)
     {
       var thisBook = _db.Books.FirstOrDefault(book => book.BookId == id);
       ViewBag.PatronId = new SelectList(_db.Patrons, "PatronId", "PatronName");
       return View(thisBook);
     }
-    [Authorize]
+    [AllowAnonymous]
     [HttpPost]
     public ActionResult AddPatron(Book book, int PatronId, int id, int Copies, int CheckedOutCopies, string Genre, string Title)
     {

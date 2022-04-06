@@ -44,7 +44,7 @@ namespace Library
 
       app.UseEndpoints(routes =>
       {
-        routes.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
+        routes.MapControllerRoute("default", "{controller=Books}/{action=Index}/{id?}");
       });
 
       app.UseStaticFiles();

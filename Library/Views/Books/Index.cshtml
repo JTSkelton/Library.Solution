@@ -67,10 +67,16 @@
           @Html.ActionLink("Details", "Details", new { id = book.BookId }, new { @class = "btn btn-outline-info" })
         </td>
         <td width 50%>
-          @Html.ActionLink("Edit Book", "Edit", new { id = book.BookId }, new { @class = "btn btn-outline-warning" })
+          @if (User.Identity.IsAuthenticated)
+          {
+            @Html.ActionLink("Edit Book", "Edit", new { id = book.BookId }, new { @class = "btn btn-outline-warning" })
+          }
         </td>
         <td width 50%>
+          @if (User.Identity.IsAuthenticated)
+          {
           @Html.ActionLink("Delete Book", "Delete", new { id = book.BookId }, new { @class = "btn btn-outline-danger" })
+          }
         </td>
       </tr>
     }

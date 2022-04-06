@@ -5,8 +5,8 @@ namespace Library.Controllers
     public class HomeController : Controller
     {
 
-      [HttpGet("/")]
-      public ActionResult LoginIndex()
+      [HttpGet("Books")]
+      public ActionResult Index()
       {
         return View();
       }

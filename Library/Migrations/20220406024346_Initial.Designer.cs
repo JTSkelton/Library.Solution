@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Library.Migrations
 {
     [DbContext(typeof(LibraryContext))]
-    [Migration("20220331180204_Initial")]
+    [Migration("20220406024346_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -83,56 +83,14 @@ namespace Library.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("Library.Models.Author", b =>
-                {
-                    b.Property<int>("AuthorId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<string>("AuthorName")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
-
-                    b.HasKey("AuthorId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Authors");
-                });
-
-            modelBuilder.Entity("Library.Models.AuthorBookLibrarian", b =>
-                {
-                    b.Property<int>("AuthorBookLibraianId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<int>("AuthorId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("BookId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("LibrarianId")
-                        .HasColumnType("int");
-
-                    b.HasKey("AuthorBookLibraianId");
-
-                    b.HasIndex("AuthorId");
-
-                    b.HasIndex("BookId");
-
-                    b.HasIndex("LibrarianId");
-
-                    b.ToTable("AuthorBookLibrarian");
-                });
-
             modelBuilder.Entity("Library.Models.Book", b =>
                 {
                     b.Property<int>("BookId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    b.Property<string>("Author")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<int>("CheckedOutCopies")
                         .HasColumnType("int");
@@ -140,10 +98,14 @@ namespace Library.Migrations
                     b.Property<int>("Copies")
                         .HasColumnType("int");
 
+                    b.Property<string>("Genre")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
                     b.Property<bool>("IsCheckedOut")
                         .HasColumnType("tinyint(1)");
 
                     b.Property<string>("Title")
+                        .IsRequired()
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("UserId")
@@ -187,6 +149,7 @@ namespace Library.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("LibrarianName")
+                        .IsRequired()
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.HasKey("LibrarianId");
@@ -336,42 +299,6 @@ namespace Library.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("Library.Models.Author", b =>
-                {
-                    b.HasOne("Library.Models.ApplicationUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Library.Models.AuthorBookLibrarian", b =>
-                {
-                    b.HasOne("Library.Models.Author", "Author")
-                        .WithMany("AuthorBookLibrarianEntities")
-                        .HasForeignKey("AuthorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Library.Models.Book", "Book")
-                        .WithMany("AuthorBookLibrarianEntities")
-                        .HasForeignKey("BookId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Library.Models.Librarian", "Librarian")
-                        .WithMany("AuthorBookLibrarianEntities")
-                        .HasForeignKey("LibrarianId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Author");
-
-                    b.Navigation("Book");
-
-                    b.Navigation("Librarian");
-                });
-
             modelBuilder.Entity("Library.Models.Book", b =>
                 {
                     b.HasOne("Library.Models.ApplicationUser", "User")
@@ -451,21 +378,9 @@ namespace Library.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Library.Models.Author", b =>
-                {
-                    b.Navigation("AuthorBookLibrarianEntities");
-                });
-
             modelBuilder.Entity("Library.Models.Book", b =>
                 {
-                    b.Navigation("AuthorBookLibrarianEntities");
-
                     b.Navigation("BookPatronEntities");
-                });
-
-            modelBuilder.Entity("Library.Models.Librarian", b =>
-                {
-                    b.Navigation("AuthorBookLibrarianEntities");
                 });
 
             modelBuilder.Entity("Library.Models.Patron", b =>

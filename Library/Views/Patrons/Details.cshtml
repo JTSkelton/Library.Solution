@@ -22,6 +22,9 @@ else
 }
 <br />
 <button type="button" class="btn btn-outline-success">@Html.ActionLink("Back to patron", "Index")</button>
-<button type="button" class="btn btn-outline-success">@Html.ActionLink("Edit Patron", "Edit", new { id = Model.PatronId })</button>
-<button type="button" class="btn btn-outline-danger">@Html.ActionLink("Delete Patron", "Delete", new { id = Model.PatronId })</button>
 
+@if (User.Identity.IsAuthenticated)
+{
+  <button type="button" class="btn btn-outline-success">@Html.ActionLink("Edit Patron", "Edit", new { id = Model.PatronId })</button>
+  <button type="button" class="btn btn-outline-danger">@Html.ActionLink("Delete Patron", "Delete", new { id = Model.PatronId })</button>
+}

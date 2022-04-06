@@ -53,7 +53,7 @@ namespace Library.Migrations
                 {
                     LibrarianId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    LibrarianName = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true)
+                    LibrarianName = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -180,26 +180,6 @@ namespace Library.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Authors",
-                columns: table => new
-                {
-                    AuthorId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    AuthorName = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
-                    UserId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Authors", x => x.AuthorId);
-                    table.ForeignKey(
-                        name: "FK_Authors_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Books",
                 columns: table => new
                 {
@@ -207,7 +187,9 @@ namespace Library.Migrations
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Copies = table.Column<int>(type: "int", nullable: false),
                     CheckedOutCopies = table.Column<int>(type: "int", nullable: false),
-                    Title = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
+                    Title = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: false),
+                    Author = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
+                    Genre = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
                     IsCheckedOut = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     UserId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: true)
                 },
@@ -220,39 +202,6 @@ namespace Library.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AuthorBookLibrarian",
-                columns: table => new
-                {
-                    AuthorBookLibraianId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    BookId = table.Column<int>(type: "int", nullable: false),
-                    AuthorId = table.Column<int>(type: "int", nullable: false),
-                    LibrarianId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AuthorBookLibrarian", x => x.AuthorBookLibraianId);
-                    table.ForeignKey(
-                        name: "FK_AuthorBookLibrarian_Authors_AuthorId",
-                        column: x => x.AuthorId,
-                        principalTable: "Authors",
-                        principalColumn: "AuthorId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_AuthorBookLibrarian_Books_BookId",
-                        column: x => x.BookId,
-                        principalTable: "Books",
-                        principalColumn: "BookId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_AuthorBookLibrarian_Librarians_LibrarianId",
-                        column: x => x.LibrarianId,
-                        principalTable: "Librarians",
-                        principalColumn: "LibrarianId",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -320,26 +269,6 @@ namespace Library.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_AuthorBookLibrarian_AuthorId",
-                table: "AuthorBookLibrarian",
-                column: "AuthorId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AuthorBookLibrarian_BookId",
-                table: "AuthorBookLibrarian",
-                column: "BookId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AuthorBookLibrarian_LibrarianId",
-                table: "AuthorBookLibrarian",
-                column: "LibrarianId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Authors_UserId",
-                table: "Authors",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_BookPatron_BookId",
                 table: "BookPatron",
                 column: "BookId");
@@ -373,19 +302,13 @@ namespace Library.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "AuthorBookLibrarian");
-
-            migrationBuilder.DropTable(
                 name: "BookPatron");
 
             migrationBuilder.DropTable(
-                name: "AspNetRoles");
-
-            migrationBuilder.DropTable(
-                name: "Authors");
-
-            migrationBuilder.DropTable(
                 name: "Librarians");
+
+            migrationBuilder.DropTable(
+                name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "Books");

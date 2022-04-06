@@ -12,12 +12,15 @@
   <h3>No library patrons have been added yet!</h3>
 } 
 
-
-  @foreach(Patron patron in Model)
+  @if (User.Identity.IsAuthenticated)
   {
-    <h3>@Html.ActionLink($"{patron.PatronName}", "Details", new { id = patron.PatronId })</h3>
+    @foreach(Patron patron in Model)
+    {
+      <h3>@Html.ActionLink($"{patron.PatronName}", "Details", new { id = patron.PatronId })</h3>
+    }
   }
 
 <br />
+
 <button type="button" class="btn btn-outline-success">@Html.ActionLink("Add new patron", "Create")</button>
 <button type="button" class="btn btn-outline-warning">@Html.ActionLink("Home", "Index", "Home")</button>
